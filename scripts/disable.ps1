@@ -25,6 +25,17 @@ foreach ($line in Get-Content $List) {
     if ($Batch -eq 0 -or $Batch -eq $current) { $pkgs += $name }
 }
 
+# Core Android packages: with one of these disabled the TV may never boot again (cleanyourtv v2.7.0,
+# issue #884). The whole list is checked, not only the chosen batch, and there is no override.
+# Same patterns as tools\disable.ps1, disable.sh and recovery.py.
+$coreRe = '^(android|com\.android\.systemui|com\.android\.shell|com\.android\.phone|com\.android\.settings|com\.android\.tv\.settings|com\.(google\.)?android\.(permissioncontroller|packageinstaller|ext\.services|ext\.shared|modulemetadata)|com\.google\.android\.overlay\.modules.*|com\.android\.providers\..*)$'
+$coreOk = '^com\.android\.providers\.(calendar|contacts|userdictionary|blockednumber)$'
+$all = @(Get-Content $List | ForEach-Object { ($_ -replace '#.*$', '').Trim() } | Where-Object { $_ })
+$core = @($all | Where-Object { $_ -cmatch $coreRe -and $_ -cnotmatch $coreOk })
+if ($core.Count -gt 0) {
+    throw "refusing ${List}: it disables core Android packages, and without them the TV may not boot again: $($core -join ', '). Take these lines out of the list and run it again. Nothing was changed on the TV."
+}
+
 & $adb connect $dev | Out-Null
 $enabled = (& $adb -s $dev shell pm list packages -e) -replace '^package:', '' | ForEach-Object { $_.Trim() }
 
