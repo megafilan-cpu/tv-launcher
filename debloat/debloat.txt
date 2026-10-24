@@ -4,7 +4,7 @@
 #
 # Apply:   scripts\disable.ps1 debloat\debloat.txt              (all batches)
 #          scripts\disable.ps1 debloat\debloat.txt -Batch 1     (one batch)
-# Undo:    scripts\restore.ps1                                   (see docs/06-restore.md)
+# Undo:    scripts\restore.ps1                                   (see "Undo / restore" in README.md)
 # Everything is DISABLED (pm disable-user --user 0), never uninstalled. Comment out a line to keep it.
 #
 # Kept on purpose (TV needs them or owner uses them):
