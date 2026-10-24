@@ -2,7 +2,7 @@
 # Run again after changing launcher\cosy.properties or the source.
 #
 # Usage: scripts\launcher-install.ps1 [-TakeHome] [-NoBuild] [-NoOpen] [-TvHost 192.168.8.202]
-# Undo:  scripts\restore.ps1 -RemoveLauncher   (or see docs/06-restore.md)
+# Undo:  scripts\restore.ps1 -RemoveLauncher   (or see "Undo / restore" in README.md)
 param(
     [switch]$TakeHome,
     [switch]$NoBuild,

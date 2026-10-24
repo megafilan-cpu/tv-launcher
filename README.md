@@ -104,6 +104,10 @@ For the same Sony TV after a reset, run these from the repo root:
 7. Select Google Ambient mode as the screensaver on the TV. Run `adb shell settings put system screen_off_timeout 300000` for the saved 5-minute delay and `adb shell settings put global stay_on_while_plugged_in 0` so Stay awake cannot prevent it. Check the screensaver starts while idle.
 8. Save the result with `scripts\backup.ps1 -Label after-setup`, then [close ADB](docs/04-close-adb.md).
 
+## After a Sony firmware update
+
+An update can re-enable disabled packages, give Home back to the Google TV launcher, switch off the remote-button service and add new preloads. Enable debugging, connect, and run `scripts\check.ps1`. It only reads: it lists what drifted (exit code 1) and any packages not in the after-setup backup, and names the script that fixes each item (`disable.ps1`, `launcher-install.ps1 -TakeHome`, `dns.ps1`). Review new packages before adding them to the list, then [close ADB](docs/04-close-adb.md) again.
+
 ## Undo / restore
 
 | What | How |
@@ -123,7 +127,7 @@ docs/          setup checklist, PC and TV setup, the original prompt, closing AD
 docs/upstream/ troubleshooting docs from cleanyourtv
 launcher/      Cosy Home launcher source and its settings
 licenses/      third-party licences
-scripts/       PowerShell scripts for this TV: backup, disable, restore, DNS, launcher install, screenshots
+scripts/       PowerShell scripts for this TV: backup, disable, check, restore, DNS, launcher install, screenshots
 screenshots/   demo screenshots
 tools/         helper scripts from cleanyourtv
 ```
