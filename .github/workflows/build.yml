@@ -1,35 +1,35 @@
-name: Build Cosy TV Launcher Online
+name: Compile Cosy TV Launcher
 
 on:
-  workflow_dispatch: # Memungkinkan Anda menjalankan build secara manual kapan saja
+  workflow_dispatch: # Mengaktifkan tombol manual "Run workflow" di tab Actions
 
 jobs:
-  build:
+  compile-android:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
+    - name: Unduh Source Code Repo
       uses: actions/checkout@v4
 
-    - name: Set up JDK 17
+    - name: Setup Lingkungan JDK 17
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
         java-version: '17'
-        cache: 'gradle' # Mempercepat proses build dengan cache
+        cache: 'gradle'
 
-    - name: Grant execute permission for Gradle
+    - name: Berikan Izin Eksekusi Gradle Wrapper
       run: |
         cd launcher
         chmod +x gradlew
 
-    - name: Build Release APK with Gradle
+    - name: Proses Compile APK via Gradle
       run: |
         cd launcher
-        ./gradlew assembleRelease
+        ./gradlew assembleDebug
 
-    - name: Find and Upload Finished APK
+    - name: Upload dan Amankan File APK Jadi
       uses: actions/upload-artifact@v4
       with:
-        name: cosy-tv-launcher-apk
-        path: launcher/app/build/outputs/apk/release/*.apk
+        name: Cosy-TV-Launcher-Build
+        path: launcher/app/build/outputs/apk/debug/*.apk
